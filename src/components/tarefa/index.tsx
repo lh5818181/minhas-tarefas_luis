@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import * as S from './styles'
 import * as enums from '../../utils/enums/Tarefas'
-
+import { remove, editar } from '../../store/reducers/Tarefas'
 type Props = {
   titulo: string
   prioridade: enums.Prioridade
@@ -9,8 +9,24 @@ type Props = {
   descricao: string
 }
 
-const Tarefa = ({ descricao, prioridade, status, titulo }: Props) => {
+const Tarefa = ({
+  descricao: descricaoOriginal,
+  prioridade,
+  status,
+  titulo
+}: Props) => {
   const [estaEditando, setEstaEditando] = useState(false)
+  const [descricao, setdescricao] = useState('')
+
+  useEffect(() => {
+    if (descricaoOriginal.length > 0) setdescricao(descricaoOriginal)
+  }, [descricaoOriginal])
+
+  function cancelarEdicao() {
+    setEstaEditando(false)
+    setdescricao(descricaoOriginal)
+  }
+
   return (
     <S.Card>
       <S.Titulo>{titulo}</S.Titulo>
@@ -20,12 +36,33 @@ const Tarefa = ({ descricao, prioridade, status, titulo }: Props) => {
       <S.Tag parametro="status" status={status}>
         {status}
       </S.Tag>
-      <S.Descricao value={descricao} />
+      <S.Descricao
+        disabled={!estaEditando}
+        value={descricao}
+        onChange={(evento) => setdescricao(evento.target.value)}
+      />
       <S.BarraAcoes>
         {estaEditando ? (
           <>
-            <S.BotaoSalvar>Salvar</S.BotaoSalvar>
-            <S.BotaoCancelarRemover onClick={() => setEstaEditando(false)}>
+            <S.BotaoSalvar
+              onClick={() => {
+                //corrigir o evento de onclick salvar, não esta mudando o estado da aplicação//
+                const evento = new CustomEvent('tarefas/editar', {
+                  detail: editar({
+                    descricao,
+                    prioridade,
+                    status,
+                    titulo,
+                    id: 1
+                  })
+                })
+                dispatchEvent(evento)
+                setEstaEditando(false)
+              }}
+            >
+              Salvar
+            </S.BotaoSalvar>
+            <S.BotaoCancelarRemover onClick={cancelarEdicao}>
               Cancelar
             </S.BotaoCancelarRemover>
           </>
