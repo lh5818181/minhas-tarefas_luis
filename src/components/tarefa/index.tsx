@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import * as S from './styles'
 import * as enums from '../../utils/enums/Tarefas'
 import { remove, editar } from '../../store/reducers/Tarefas'
+import { BotaoSalvar } from '../../styles/index'
 type Props = {
   titulo: string
   prioridade: enums.Prioridade
@@ -44,7 +45,7 @@ const Tarefa = ({
       <S.BarraAcoes>
         {estaEditando ? (
           <>
-            <S.BotaoSalvar
+            <BotaoSalvar
               onClick={() => {
                 //corrigir o evento de onclick salvar, não esta mudando o estado da aplicação//
                 const evento = new CustomEvent('tarefas/editar', {
@@ -61,7 +62,7 @@ const Tarefa = ({
               }}
             >
               Salvar
-            </S.BotaoSalvar>
+            </BotaoSalvar>
             <S.BotaoCancelarRemover onClick={cancelarEdicao}>
               Cancelar
             </S.BotaoCancelarRemover>

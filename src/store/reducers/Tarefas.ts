@@ -20,10 +20,10 @@ const tarefasSlice = createSlice({
       1
     ),
     new Tarefa(
-      'Estudar JS',
-      enums.Prioridade.IMPORTANTE,
-      enums.Status.PENDENTE,
-      'Estudar JS para melhorar minhas habilidades em front-end',
+      'Estudar JavaScript',
+      enums.Prioridade.NORMAL,
+      enums.Status.CONCLUIDA,
+      'Estudar JavaScript para melhorar minhas habilidades em front-end',
       1
     )
   ],
@@ -36,9 +36,20 @@ const tarefasSlice = createSlice({
       if (indexDaTarefa >= 0) {
         state[indexDaTarefa] = action.payload
       }
+    },
+    Cadastrar: (state, action: PayloadAction<Tarefa>) => {
+      const tarefaJaExiste = state.find(
+        (t: Tarefa) =>
+          t.titulo.toLowerCase() === action.payload.titulo.toLowerCase()
+      )
+      if (tarefaJaExiste) {
+        alert('Tarefa já existe com esse título')
+      } else {
+        state.push(action.payload)
+      }
     }
   }
 })
 
-export const { remove, editar } = tarefasSlice.actions
+export const { remove, editar, Cadastrar } = tarefasSlice.actions
 export default tarefasSlice.reducer
