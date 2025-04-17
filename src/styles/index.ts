@@ -1,6 +1,5 @@
 import styled, { createGlobalStyle } from 'styled-components'
 import variaveis from './variaveis'
-import { Botao } from '../components/tarefa/styles'
 
 const EstiloGlobal = createGlobalStyle`
 * {
@@ -8,7 +7,7 @@ const EstiloGlobal = createGlobalStyle`
   padding: 0;
   box-sizing: border-box;
   font-family: Roboto, sans-serif;
-    list-style: none;
+  list-style: none;
 }
 `
 
@@ -40,8 +39,20 @@ export const Campo = styled.input`
   border-color: #666666;
   width: 100%;
 `
+
+export const Botao = styled.button`
+  font-size: 12px;
+  font-weight: bold;
+  color: #fff;
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+  background-color: #2f3640;
+  border-radius: 8px;
+  margin-right: 8px;
+`
+
 export const BotaoSalvar = styled(Botao)`
   background-color: ${variaveis.verde};
 `
-
 export default EstiloGlobal

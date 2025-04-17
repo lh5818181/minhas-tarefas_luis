@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import * as S from './styles'
 import * as enums from '../../utils/enums/Tarefas'
 import { remove, editar } from '../../store/reducers/Tarefas'
-import { BotaoSalvar } from '../../styles/index'
+import { Botao, BotaoSalvar } from '../../styles/index'
 type Props = {
   titulo: string
   prioridade: enums.Prioridade
@@ -30,7 +30,16 @@ const Tarefa = ({
 
   return (
     <S.Card>
-      <S.Titulo>{titulo}</S.Titulo>
+      <label htmlFor={titulo}>
+      {/* Adicionar função de marcação do Checkbox para marcar as tarefas concluidas no inicio da aula 
+      'Marque uma tarefa como concluída', não estava funcionando a implementação verificar 
+      possivel revisão do codigo. */}
+        <input type="checkbox" id={titulo} /> 
+        <S.Titulo>
+          {estaEditando && <em>Editando: </em>}
+          {titulo}
+        </S.Titulo>
+      </label>
       <S.Tag parametro="prioridade" prioridade={prioridade}>
         {prioridade}
       </S.Tag>
@@ -69,7 +78,7 @@ const Tarefa = ({
           </>
         ) : (
           <>
-            <S.Botao onClick={() => setEstaEditando(true)}>Editar</S.Botao>
+            <Botao onClick={() => setEstaEditando(true)}>Editar</Botao>
             <S.BotaoCancelarRemover>Remover</S.BotaoCancelarRemover>
           </>
         )}
